@@ -47,6 +47,7 @@ const Home: React.FC = () => {
     }
   }, [bibleData]);
 
+  // .find is to return a single, .filter is to return an array
   const handleSelectBook = (title: string) => {
     const book = bibleData?.find((book) => book.book === title);
     setSelectedBook(book);
@@ -60,8 +61,12 @@ const Home: React.FC = () => {
     <div>
       <h1>Select a Book:</h1>
       <BookList books={bookArray} onSelect={handleSelectBook} />
-      {selectedBook && <p>Selected Book: {selectedBook.book}</p>}
-      {bibleData && selectedBook && <p>{bibleData[0].book}</p>}
+      {selectedBook && (
+        <p>
+          Selected Book: {selectedBook.book} # of chapters:{" "}
+          {selectedBook.chapters.length}
+        </p>
+      )}
     </div>
   );
 };
