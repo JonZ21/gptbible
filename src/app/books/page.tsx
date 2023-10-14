@@ -28,6 +28,7 @@ const Home: React.FC = () => {
 
   const [bibleData, setBibleData] = useState<Book[] | null>(null);
   const [bookArray, setBookArray] = useState<string[]>([]);
+  const [selectedBook, setSelectedBook] = useState<Book>();
 
   useEffect(() => {
     const fetchData = async () => {
@@ -46,10 +47,9 @@ const Home: React.FC = () => {
     }
   }, [bibleData]);
 
-  const [selectedBook, setSelectedBook] = useState<string | null>(null);
-
   const handleSelectBook = (title: string) => {
-    setSelectedBook(title);
+    const book = bibleData?.find((book) => book.book === title);
+    setSelectedBook(book);
   };
 
   if (!bibleData) {
@@ -60,7 +60,7 @@ const Home: React.FC = () => {
     <div>
       <h1>Select a Book:</h1>
       <BookList books={bookArray} onSelect={handleSelectBook} />
-      {selectedBook && <p>Selected Book: {selectedBook}</p>}
+      {selectedBook && <p>Selected Book: {selectedBook.book}</p>}
       {bibleData && selectedBook && <p>{bibleData[0].book}</p>}
     </div>
   );
