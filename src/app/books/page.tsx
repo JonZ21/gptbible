@@ -1,76 +1,7 @@
 "use client";
 // pages/index.tsx
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import BookList from "../components/BookList";
-
-const books = [
-  "Genesis",
-  "Exodus",
-  "Leviticus",
-  "Numbers",
-  "Deuteronomy",
-  "Joshua",
-  "Judges",
-  "Ruth",
-  "1 Samuel",
-  "2 Samuel",
-  "1 Kings",
-  "2 Kings",
-  "1 Chronicles",
-  "2 Chronicles",
-  "Ezra",
-  "Nehemiah",
-  "Esther",
-  "Job",
-  "Psalms",
-  "Proverbs",
-  "Ecclesiastes",
-  "Song of Solomon",
-  "Isaiah",
-  "Jeremiah",
-  "Lamentations",
-  "Ezekiel",
-  "Daniel",
-  "Hosea",
-  "Joel",
-  "Amos",
-  "Obadiah",
-  "Jonah",
-  "Micah",
-  "Nahum",
-  "Habakkuk",
-  "Zephaniah",
-  "Haggai",
-  "Zechariah",
-  "Malachi",
-  "Matthew",
-  "Mark",
-  "Luke",
-  "John",
-  "Acts",
-  "Romans",
-  "1 Corinthians",
-  "2 Corinthians",
-  "Galatians",
-  "Ephesians",
-  "Philippians",
-  "Colossians",
-  "1 Thessalonians",
-  "2 Thessalonians",
-  "1 Timothy",
-  "2 Timothy",
-  "Titus",
-  "Philemon",
-  "Hebrews",
-  "James",
-  "1 Peter",
-  "2 Peter",
-  "1 John",
-  "2 John",
-  "3 John",
-  "Jude",
-  "Revelation",
-]; // Your array of book names
 
 const Home: React.FC = () => {
   // Q: what does usestate<string | null> mean
@@ -84,6 +15,36 @@ const Home: React.FC = () => {
   //   onSelect is a function that takes a string and returns nothing.
   //   You need to call onSelect in Book.tsx when the book is clicked.
   //   You can use the onClick prop to call onSelect.
+  type Chapters = {
+    chapter: string;
+    verses: string;
+  };
+
+  type Book = {
+    abbr: string;
+    book: string;
+    chapters: Chapters[];
+  };
+
+  const [bibleData, setBibleData] = useState<Book[] | null>(null);
+  const [bookArray, setBookArray] = useState<string[]>([]);
+
+  useEffect(() => {
+    const fetchData = async () => {
+      const response = await fetch("/bible.json"); // Note: path is relative to the public directory
+      const data = await response.json();
+      setBibleData(data);
+    };
+
+    fetchData();
+  }, []);
+
+  useEffect(() => {
+    if (bibleData) {
+      const books = bibleData.map((book) => book.book);
+      setBookArray(books);
+    }
+  }, [bibleData]);
 
   const [selectedBook, setSelectedBook] = useState<string | null>(null);
 
@@ -91,11 +52,16 @@ const Home: React.FC = () => {
     setSelectedBook(title);
   };
 
+  if (!bibleData) {
+    return <div>Loading...</div>;
+  }
+
   return (
     <div>
       <h1>Select a Book:</h1>
-      <BookList books={books} onSelect={handleSelectBook} />
+      <BookList books={bookArray} onSelect={handleSelectBook} />
       {selectedBook && <p>Selected Book: {selectedBook}</p>}
+      {bibleData && selectedBook && <p>{bibleData[0].book}</p>}
     </div>
   );
 };
