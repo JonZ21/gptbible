@@ -41,6 +41,7 @@ const Home: React.FC = () => {
   const handleSelectBook = (title: string) => {
     const book = bibleData?.find((book) => book.book === title);
     setSelectedBook(book);
+    setSelectedChapter(1);
   };
 
   const handleSelectChapter = (chapter: number) => {
@@ -57,13 +58,18 @@ const Home: React.FC = () => {
       <h1>Select a Book:</h1>
       <BookList books={bookArray} onSelect={handleSelectBook} />
       {selectedBook && (
-        <p>
-          Selected Book: {selectedBook.book} # of chapters:{" "}
-          {selectedBook.chapters.length}
-        </p>
+        <div>
+          <p>
+            Selected Book: {selectedBook.book} # of chapters:{" "}
+            {selectedBook.chapters.length}
+          </p>
+          <ChapterList
+            chapterLength={selectedBook.chapters.length}
+            onSelect={handleSelectChapter}
+          />
+          <p>Selected Chapter: {selectedChapter}</p>
+        </div>
       )}
-
-      <ChapterList chapters={[0, 1, 2]} onSelect={handleSelectChapter} />
     </div>
   );
 };
