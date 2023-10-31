@@ -22,6 +22,13 @@ const Home: React.FC = () => {
   const [selectedBook, setSelectedBook] = useState<Book>();
   const [selectedChapter, setSelectedChapter] = useState<number>();
   const [chapterText, setChapterText] = useState<string>("");
+  const singleChapterBooks = [
+    "2 John",
+    "3 John",
+    "Jude",
+    "Philemon",
+    "Obadiah",
+  ];
 
   useEffect(() => {
     const fetchData = async () => {
@@ -44,22 +51,35 @@ const Home: React.FC = () => {
         selectedChapter +
         "/"
     );
-    axios
-      .get(
-        "http://127.0.0.1:8000/api/get_Chapter/" +
-          selectedBook.book +
-          "/" +
-          selectedChapter +
-          "/"
-      )
-      .then((response) => {
-        console.log("API: " + response.data.passages[0]);
-        setChapterText(response.data.passages[0]);
-      })
-      .catch((error) => {
-        console.error("There was an error fetching data", error);
-      });
-  }, [selectedChapter]); // The empty dependency array ensures this runs only once.
+
+    if (singleChapterBooks.includes(selectedBook.book)) {
+      axios
+        .get("http://127.0.0.1:8000/api/get_Book/" + selectedBook.book + "/")
+        .then((response) => {
+          console.log("API: " + response.data.passages[0]);
+          setChapterText(response.data.passages[0]);
+        })
+        .catch((error) => {
+          console.error("There was an error fetching data", error);
+        });
+    } else {
+      axios
+        .get(
+          "http://127.0.0.1:8000/api/get_Chapter/" +
+            selectedBook.book +
+            "/" +
+            selectedChapter +
+            "/"
+        )
+        .then((response) => {
+          console.log("API: " + response.data.passages[0]);
+          setChapterText(response.data.passages[0]);
+        })
+        .catch((error) => {
+          console.error("There was an error fetching data", error);
+        });
+    }
+  }, [selectedChapter, selectedBook]); // The empty dependency array ensures this runs only once.
 
   useEffect(() => {
     if (bibleData) {
