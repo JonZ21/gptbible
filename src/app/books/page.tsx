@@ -2,7 +2,9 @@
 // pages/index.tsx
 import React, { useState, useEffect } from "react";
 import BookList from "../components/BookList";
-import ChapterList from "../components/chapterList";
+import ChapterList from "../components/ChapterList";
+import axios from "axios";
+
 const Home: React.FC = () => {
   type Chapters = {
     chapter: string;
@@ -19,6 +21,7 @@ const Home: React.FC = () => {
   const [bookArray, setBookArray] = useState<string[]>([]);
   const [selectedBook, setSelectedBook] = useState<Book>();
   const [selectedChapter, setSelectedChapter] = useState<number>();
+  const [chapterText, setChapterText] = useState<string>("");
 
   useEffect(() => {
     const fetchData = async () => {
@@ -29,6 +32,34 @@ const Home: React.FC = () => {
 
     fetchData();
   }, []);
+
+  useEffect(() => {
+    if (!selectedBook) {
+      return;
+    }
+    console.log(
+      "http://127.0.0.1:8000/api/get_Chapter/" +
+        selectedBook.book +
+        "/" +
+        selectedChapter +
+        "/"
+    );
+    axios
+      .get(
+        "http://127.0.0.1:8000/api/get_Chapter/" +
+          selectedBook.book +
+          "/" +
+          selectedChapter +
+          "/"
+      )
+      .then((response) => {
+        console.log("API: " + response.data.passages[0]);
+        setChapterText(response.data.passages[0]);
+      })
+      .catch((error) => {
+        console.error("There was an error fetching data", error);
+      });
+  }, [selectedChapter]); // The empty dependency array ensures this runs only once.
 
   useEffect(() => {
     if (bibleData) {
@@ -68,6 +99,7 @@ const Home: React.FC = () => {
             onSelect={handleSelectChapter}
           />
           <p>Selected Chapter: {selectedChapter}</p>
+          <p>{chapterText}</p>
         </div>
       )}
     </div>
