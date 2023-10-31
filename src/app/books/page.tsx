@@ -3,6 +3,7 @@
 import React, { useState, useEffect } from "react";
 import BookList from "../components/BookList";
 import ChapterList from "../components/ChapterList";
+import Summary from "../components/Summary";
 import axios from "axios";
 
 const Home: React.FC = () => {
@@ -22,6 +23,7 @@ const Home: React.FC = () => {
   const [selectedBook, setSelectedBook] = useState<Book>();
   const [selectedChapter, setSelectedChapter] = useState<number>();
   const [chapterText, setChapterText] = useState<string>("");
+  const [summary, setSummary] = useState<string>("");
   const singleChapterBooks = [
     "2 John",
     "3 John",
@@ -39,6 +41,22 @@ const Home: React.FC = () => {
 
     fetchData();
   }, []);
+
+  useEffect(() => {
+    if (!selectedBook) {
+      return;
+    }
+    axios
+      .get(
+        "http://127.0.0.1:8000/api/get_Book_Summary/" + selectedBook.book + "/"
+      )
+      .then((response) => {
+        setSummary(response.data);
+      })
+      .catch((error) => {
+        console.error("There was an error fetching summary", error);
+      });
+  }, [selectedBook]);
 
   useEffect(() => {
     if (!selectedBook) {
@@ -120,6 +138,7 @@ const Home: React.FC = () => {
           />
           <p>Selected Chapter: {selectedChapter}</p>
           <p>{chapterText}</p>
+          <Summary summary={summary} />
         </div>
       )}
     </div>
