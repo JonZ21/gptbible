@@ -2,13 +2,14 @@
 import Image from "next/image";
 import { motion } from "framer-motion";
 import Link from "next/link";
+import Button from "@mui/material/Button";
 
 export default function Home() {
   return (
     <div className="h-screen bg-gradient-to-tr from-blue-500 to-green-500 flex justify-center items-center">
       <motion.div
         initial={{ opacity: 0 }}
-        animate={{ opacity: 1, y: -5  0 }}
+        animate={{ opacity: 1, y: -50 }}
         transition={{ duration: 1 }}
       >
         <div className="cursor-pointer flex flex-row items-center">
@@ -25,9 +26,7 @@ export default function Home() {
         </div>
         <div className="flex flex-row justify-center">
           <Link href="/books">
-            <button className="bg-white rounded-md text-3xl text-black opacity-90">
-              Get Started
-            </button>
+            <Button variant="contained">Get Started</Button>
           </Link>
         </div>
       </motion.div>

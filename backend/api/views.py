@@ -37,5 +37,4 @@ def get_book(request, book):
 def get_book_summary(request, book):
     co = cohere.Client(COHERE_API_KEY)
     response = co.generate(prompt=f"Summarize {book} in 1 sentence. Include who the author is.", max_tokens=100)
-    print(response)
     return HttpResponse(response)
