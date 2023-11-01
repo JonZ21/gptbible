@@ -3,10 +3,12 @@ import Image from "next/image";
 import { motion } from "framer-motion";
 import Link from "next/link";
 import Button from "@mui/material/Button";
+import Navbar from "./components/Navbar";
 
 export default function Home() {
   return (
     <div className="h-screen bg-gradient-to-tr from-blue-500 to-green-500 flex justify-center items-center">
+      <Navbar />
       <motion.div
         initial={{ opacity: 0 }}
         animate={{ opacity: 1, y: -50 }}
