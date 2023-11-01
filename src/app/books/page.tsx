@@ -5,6 +5,7 @@ import BookList from "../components/BookList";
 import ChapterList from "../components/ChapterList";
 import Summary from "../components/Summary";
 import axios from "axios";
+import Navbar from "../components/Navbar";
 
 const Home: React.FC = () => {
   type Chapters = {
@@ -123,24 +124,27 @@ const Home: React.FC = () => {
   }
 
   return (
-    <div>
-      <h1>Select a Book:</h1>
-      <BookList books={bookArray} onSelect={handleSelectBook} />
-      {selectedBook && (
-        <div>
-          <p>
-            Selected Book: {selectedBook.book} # of chapters:{" "}
-            {selectedBook.chapters.length}
-          </p>
-          <ChapterList
-            chapterLength={selectedBook.chapters.length}
-            onSelect={handleSelectChapter}
-          />
-          <p>Selected Chapter: {selectedChapter}</p>
-          <p>{chapterText}</p>
-          <Summary summary={summary} />
-        </div>
-      )}
+    <div className="h-screen bg-gradient-to-tr from-blue-500 to-green-500 flex justify-center items-center">
+      <Navbar />
+      <div>
+        <h1>Select a Book:</h1>
+        <BookList books={bookArray} onSelect={handleSelectBook} />
+        {selectedBook && (
+          <div>
+            <p>
+              Selected Book: {selectedBook.book} # of chapters:{" "}
+              {selectedBook.chapters.length}
+            </p>
+            <ChapterList
+              chapterLength={selectedBook.chapters.length}
+              onSelect={handleSelectChapter}
+            />
+            <p>Selected Chapter: {selectedChapter}</p>
+            <p>{chapterText}</p>
+            <Summary summary={summary} />
+          </div>
+        )}
+      </div>
     </div>
   );
 };
