@@ -1,7 +1,8 @@
-![bible](https://github.com/JonZ21/gptbible/assets/69182320/52642f6d-3094-41a3-9c7c-30c5d66f72c0)
 
 See working version here: (https://immense-shore-94713-8a56ae61c4aa.herokuapp.com/)
 
+
+![logo](https://github.com/JonZ21/gptbible/assets/69182320/293f0be4-e295-45be-a19c-f0491160320e)
 
 BibleGPT 
 
