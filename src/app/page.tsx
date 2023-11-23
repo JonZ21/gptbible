@@ -22,8 +22,8 @@ export default function Home() {
             alt="biblelogo"
           />
           <div className="flex flex-col">
-            <h1 className="text-9xl font-semibold mb-0">BibleGPT</h1>
-            <h3 className=" text-5xl mt-0">AI-Powered Bible Tool</h3>
+            <h1 className="text-9xl font-semibold mb-0 text-white">BibleGPT</h1>
+            <h3 className=" text-5xl mt-0 text-white">AI-Powered Bible Tool</h3>
           </div>
         </div>
         <div className="flex flex-row justify-center">

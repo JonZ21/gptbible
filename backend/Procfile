@@ -1,0 +1,1 @@
+web: gunicorn biblegpt.wsgi --log-file -
